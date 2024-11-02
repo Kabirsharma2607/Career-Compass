@@ -73,7 +73,7 @@ function Recommendations() {
         const values = searchParams.get("values");
 
         const response = await axios.post(
-          "http://ec2-34-207-187-248.compute-1.amazonaws.com:8000/recommend",
+          "https://ec2-34-207-187-248.compute-1.amazonaws.com:8000/recommend",
           {
             highest_degree: education,
             field_of_study: field,
