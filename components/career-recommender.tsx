@@ -212,10 +212,10 @@ export function CareerRecommender() {
                               High School
                             </SelectItem>
                             <SelectItem value="bachelors">
-                              Bachelor's Degree
+                              Bachelor&apos;s Degree
                             </SelectItem>
                             <SelectItem value="masters">
-                              Master's Degree
+                              Master&apos;s Degree
                             </SelectItem>
                             <SelectItem value="phd">Ph.D.</SelectItem>
                           </SelectContent>
