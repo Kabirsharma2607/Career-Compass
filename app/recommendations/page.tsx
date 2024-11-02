@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, Suspense } from "react"; // Import Suspense
 import { useRouter, useSearchParams } from "next/navigation";
 import { motion } from "framer-motion";
 import {
@@ -53,7 +53,7 @@ function SkeletonCard() {
   );
 }
 
-export default function Recommendations() {
+function Recommendations() {
   const [fadeIn, setFadeIn] = useState(false);
   const [recommendations, setRecommendations] = useState<Recommendation[]>([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -72,14 +72,17 @@ export default function Recommendations() {
         const interests = searchParams.get("interests");
         const values = searchParams.get("values");
 
-        const response = await axios.post("http://127.0.0.1:8000/recommend", {
-          highest_degree: education,
-          field_of_study: field,
-          work_env: environment,
-          skills: skills,
-          career_interests: interests,
-          work_values: values,
-        });
+        const response = await axios.post(
+          "http://ec2-34-207-187-248.compute-1.amazonaws.com:8000/recommend",
+          {
+            highest_degree: education,
+            field_of_study: field,
+            work_env: environment,
+            skills: skills,
+            career_interests: interests,
+            work_values: values,
+          }
+        );
 
         if (response.status !== 200) {
           throw new Error("Failed to fetch recommendations");
@@ -121,7 +124,11 @@ export default function Recommendations() {
               Your Career Recommendations
             </CardTitle>
             <CardDescription className="text-gray-300 text-sm sm:text-base">
-              Click on a job card to view more details.
+              {isLoading
+                ? "Loading..."
+                : recommendations.length > 0
+                ? "Click on a job card to view more details."
+                : "Could not find any recommendations. Please try again."}
             </CardDescription>
           </CardHeader>
           <CardContent>
@@ -225,5 +232,14 @@ export default function Recommendations() {
         </Card>
       </main>
     </motion.div>
+  );
+}
+
+// Wrapper Component with Suspense
+export default function RecommendationsWrapper() {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <Recommendations />
+    </Suspense>
   );
 }
