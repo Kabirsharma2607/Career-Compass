@@ -73,7 +73,7 @@ function Recommendations() {
         const values = searchParams.get("values");
 
         const response = await axios.post(
-          "https://54.211.51.76.nip.io/recommend",
+          "https://54.163.39.0.nip.io/recommend",
           {
             highest_degree: education,
             field_of_study: field,
