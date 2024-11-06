@@ -1,6 +1,12 @@
 "use client";
 
-import React, { useState, useEffect, Suspense, useMemo } from "react"; // Import Suspense
+import React, {
+  useState,
+  useEffect,
+  Suspense,
+  useMemo,
+  useCallback,
+} from "react"; // Import Suspense
 import { useRouter, useSearchParams } from "next/navigation";
 import { motion } from "framer-motion";
 import {
@@ -62,7 +68,8 @@ const Recommendations = React.memo(() => {
   const searchParams = useSearchParams();
   const { toast } = useToast();
 
-  const fetchRecommendationsFromAPI = async () => {
+  // Memoized fetch function to avoid redefinition on each render
+  const fetchRecommendationsFromAPI = useCallback(async () => {
     try {
       const education = searchParams.get("education");
       const field = searchParams.get("field");
@@ -94,7 +101,7 @@ const Recommendations = React.memo(() => {
       });
       return [];
     }
-  };
+  }, [searchParams, toast]);
 
   useEffect(() => {
     setFadeIn(true);
@@ -114,7 +121,7 @@ const Recommendations = React.memo(() => {
       };
       fetchRecommendations();
     }
-  }, [searchParams, toast]);
+  }, [searchParams, fetchRecommendationsFromAPI]); // Adding fetchRecommendationsFromAPI to the dependency array
 
   const fadeInVariants = useMemo(
     () => ({
@@ -249,6 +256,9 @@ const Recommendations = React.memo(() => {
     </motion.div>
   );
 });
+
+// Set display name explicitly
+Recommendations.displayName = "Recommendations";
 
 // Wrapper Component with Suspense
 export default function Collab() {
