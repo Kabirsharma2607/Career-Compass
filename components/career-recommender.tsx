@@ -64,6 +64,7 @@ export function CareerRecommender() {
       skills: skills,
       interests: careerInterests,
       values: workValues,
+      collab: "true",
     });
 
     console.log(queryParams);
