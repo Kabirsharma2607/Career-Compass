@@ -107,9 +107,8 @@ const Recommendations = React.memo(() => {
     setFadeIn(true);
 
     // Memoize the recommendations to avoid unnecessary re-fetching
-    const cachedRecommendations = sessionStorage.getItem(
-      "recommendations-knowledge"
-    );
+    const cachedRecommendations = false;
+    sessionStorage.getItem("recommendations-knowledge");
 
     if (cachedRecommendations) {
       setRecommendations(JSON.parse(cachedRecommendations));
